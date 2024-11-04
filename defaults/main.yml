@@ -1,0 +1,9 @@
+---
+
+# -------------------------------------------------
+# Default Variables
+# -------------------------------------------------
+pert_satellite_external_fqdn: "{{ groups['satellites'][0].split('.')[0] }}.{{ subdomain_base }}"
+pert_satellite_internal_fqdn: satellite.example.com
+pert_satellite_user_name: admin
+pert_satellite_user_password: <CHANGEME>
