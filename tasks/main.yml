@@ -107,6 +107,17 @@
   until: start_httpd is not failed
   retries: 5
 
+- name: Gather IP address from facts
+  ansible.builtin.set_fact:
+    host_ip: "{{ ansible_default_ipv4.address }}"
+
+- name: Add entry to /etc/hosts
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "{{ host_ip }} {{ pert_satellite_internal_fqdn }}"
+    state: present
+    create: yes
+  
 - name: Set original gold image hostname via hostnamectl
   command: >-
     hostnamectl set-hostname {{ pert_satellite_internal_fqdn }}
