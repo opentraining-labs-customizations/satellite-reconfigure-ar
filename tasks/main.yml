@@ -33,8 +33,8 @@
     - name: Issue SSL cert
       shell: >
         podman run -it --rm --name certbot \
-            -v "/etc/letsencrypt:/etc/letsencrypt" \
-            -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
+            -v "/etc/letsencrypt:/etc/letsencrypt:Z" \
+            -v "/var/lib/letsencrypt:/var/lib/letsencrypt:Z" \
             -p 80:80 \
             -p 443:443 \
             docker.io/certbot/certbot:latest certonly \
