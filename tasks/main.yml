@@ -109,7 +109,7 @@
 
 - name: Set original gold image hostname via hostnamectl
   command: >-
-    hostnamectl set-hostname {{ pert_satellite_external_fqdn }}
+    hostnamectl set-hostname {{ pert_satellite_internal_fqdn }}
 
 - name: change satellite hostname
   shell: >-
