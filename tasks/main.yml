@@ -155,3 +155,6 @@
       workshop_satellite_url: "https://{{ pert_satellite_external_fqdn }}"
       workshop_satellite_user_name: "{{ pert_satellite_user_name }}"
       workshop_satellite_user_password: "{{ pert_satellite_user_password }}"
+
+- name: Refresh the manifest
+  command: 'hammer subscription refresh-manifest --organization="Default Organization"'
