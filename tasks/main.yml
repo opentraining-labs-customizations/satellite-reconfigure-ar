@@ -3,8 +3,7 @@
   lineinfile:
     dest: /etc/hosts
     regexp: '.*satellite.q7n6f.sandbox11.opentlc.com'
-    line: ''
-    state: present
+    state: absent
   ignore_errors: true
 
 - name: Configure satellite admin password
