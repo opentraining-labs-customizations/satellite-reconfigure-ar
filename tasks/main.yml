@@ -19,6 +19,18 @@
     - /etc/letsencrypt
     - /var/lib/letsencrypt
 
+- name: Change fapolicyd
+  lineinfile:
+    dest: /etc/fapolicyd/rules.d/30-patterns.rules
+    regexp: '^deny_audit perm=any pattern=ld_so : all'
+    line: '#deny_audit perm=any pattern=ld_so : all'
+    state: present
+
+- name: Stop fapolicyd
+  service:
+    name: fapolicyd
+    state: restarted 
+
 - name: Stop httpd
   service:
     name: httpd.service
