@@ -3,7 +3,7 @@
   lineinfile:
     dest: /etc/hosts
     regexp: '^satellite.q7n6f.sandbox11.opentlc.com'
-    line: '#satellite.q7n6f.sandbox11.opentlc.com'
+    line: ''
     state: present
   ignore_errors: true
 
