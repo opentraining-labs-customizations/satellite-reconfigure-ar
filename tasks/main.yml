@@ -19,17 +19,25 @@
     - /etc/letsencrypt
     - /var/lib/letsencrypt
 
-- name: Change fapolicyd
-  lineinfile:
-    dest: /etc/fapolicyd/rules.d/30-patterns.rules
-    regexp: '^deny_audit perm=any pattern=ld_so : all'
-    line: '#deny_audit perm=any pattern=ld_so : all'
-    state: present
+- name: Checking if a file exists
+  stat:
+    path: "/etc/fapolicyd/rules.d/30-patterns.rules"
+  register: file_data
 
-- name: Stop fapolicyd
-  service:
-    name: fapolicyd
-    state: restarted 
+- name: Update fapolicyd
+  when: file_data.stat.exists
+  block:
+    - name: Edit fapolicyd
+      lineinfile:
+        dest: /etc/fapolicyd/rules.d/30-patterns.rules
+        regexp: '^deny_audit perm=any pattern=ld_so : all'
+        line: '#deny_audit perm=any pattern=ld_so : all'
+        state: present
+
+    - name: Restart fapolicyd
+      service:
+        name: fapolicyd
+        state: restarted
 
 - name: Stop httpd
   service:
