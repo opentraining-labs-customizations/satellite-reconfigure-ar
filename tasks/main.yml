@@ -161,7 +161,6 @@
   register: satellite_update_cert
   failed_when: '"Success!" not in satellite_update_cert.stdout'
 
-
 - name: print satellite user.info
   agnosticd_user_info:
     msg: |
@@ -175,6 +174,21 @@
       workshop_satellite_url: "https://{{ pert_satellite_external_fqdn }}"
       workshop_satellite_user_name: "{{ pert_satellite_user_name }}"
       workshop_satellite_user_password: "{{ pert_satellite_user_password }}"
+
+- name: Restore fapolicyd
+  when: file_data.stat.exists
+  block:
+    - name: Edit fapolicyd
+      lineinfile:
+        dest: /etc/fapolicyd/rules.d/30-patterns.rules
+        regexp: '^#deny_audit perm=any pattern=ld_so : all'
+        line: 'deny_audit perm=any pattern=ld_so : all'
+        state: present
+
+    - name: Restart fapolicyd
+      service:
+        name: fapolicyd
+        state: restarted
 
 - name: Refresh the manifest
   command: 'hammer subscription refresh-manifest --organization="Default Organization"'
