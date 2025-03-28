@@ -1,4 +1,12 @@
 ---
+- name: Edit /etc/hosts file
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^satellite.q7n6f.sandbox11.opentlc.com'
+    line: '#satellite.q7n6f.sandbox11.opentlc.com'
+    state: present
+  ignore_errors: true
+
 - name: Configure satellite admin password
   command: "foreman-rake permissions:reset password={{ pert_satellite_user_password }}"
 
