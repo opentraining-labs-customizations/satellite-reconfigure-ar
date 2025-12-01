@@ -196,15 +196,9 @@
       service:
         name: fapolicyd
         state: restarted
-
-- name: Download new manifest
-  ansible.builtin.get_url:
-    url: http://72.32.49.189:8000/ashishks-rh1-SA-6.15-manifest.zip
-    dest: /tmp/ashishks-rh1-SA-6.15-manifest.zip
-    mode: '0440'
         
 - name: Upload manifest
-  command: 'hammer subscription upload --file=/tmp/ashishks-rh1-SA-6.15-manifest.zip --organization="Default Organization"'
+  command: 'hammer subscription upload --file=/tmp/satellite-6.15-ptl-manifest.zip --organization="Default Organization"'
 
 - name: Refresh the manifest
   command: 'hammer subscription refresh-manifest --organization="Default Organization"'
