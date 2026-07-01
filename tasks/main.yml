@@ -102,6 +102,12 @@
       checksum: sha256:6c595b12bcc415caa5ac38c60ad01414131a8b1944c21c7a0c5b1c97631968c9
     - url: https://letsencrypt.org/certs/isrgrootx1.pem
       checksum: sha256:22b557a27055b33606b6559f37703928d3e4ad79f110b407d04986e1843543d1
+    - url: https://letsencrypt.org/certs/gen-y/root-yr-by-x1.pem
+      checksum: sha256:b3858d7a4d598b4ab6ed2892a1b8c0ee035154876dd40a082a3b05387eea11a4
+    - url: https://letsencrypt.org/certs/gen-y/int-yr2.pem
+      checksum: f504663442f7a619127e8e12214a58a198599986d4ab42e22587d22af7e9e7eb
+    - url: https://letsencrypt.org/certs/gen-y/int-yr1.pem
+      checksum: d5efc243446ef865c0e165eb1958a2f068c9514aa17238701bd6f7ad90253ce7
 
 - name: Retrieve LetsEncrypt R12 cert
   slurp:
@@ -118,12 +124,30 @@
     src: "/etc/letsencrypt/live/{{ pert_satellite_external_fqdn }}/isrgrootx1.pem"
   register: root_cert
 
-- name: Combine R12, R13 and root X1 certs to create Letsencrypt CA bundle
+- name: Retrieve LetsEncrypt root YR cert
+  slurp:
+    src: "/etc/letsencrypt/live/{{ pert_satellite_external_fqdn }}/root-yr-by-x1.pem"
+  register: root_cert_yr
+
+- name: Retrieve LetsEncrypt intermediate YR2 cert
+  slurp:
+    src: "/etc/letsencrypt/live/{{ pert_satellite_external_fqdn }}/int-yr2.pem"
+  register: intermediate_cert_yr2
+
+- name: Retrieve LetsEncrypt intermediate YR1 cert
+  slurp:
+    src: "/etc/letsencrypt/live/{{ pert_satellite_external_fqdn }}/int-yr1.pem"
+  register: intermediate_cert_yr1
+
+- name: Combine R12, R13 and root X1 certs along with YR certs to create Letsencrypt CA bundle
   copy:
     content: |
       {{ root_cert.content|b64decode }}
       {{ intermediate_cert_r12.content | b64decode }}
       {{ intermediate_cert_r13.content | b64decode }}
+      {{ root_cert_yr.content | b64decode }}
+      {{ intermediate_cert_yr2.content | b64decode }}
+      {{ intermediate_cert_yr1.content | b64decode }}
     dest: "/etc/letsencrypt/live/{{ pert_satellite_external_fqdn }}/letsencrypt-ca-bundle.pem"
 
 - name: Start httpd
