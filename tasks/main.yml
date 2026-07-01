@@ -105,9 +105,9 @@
     - url: https://letsencrypt.org/certs/gen-y/root-yr-by-x1.pem
       checksum: sha256:b3858d7a4d598b4ab6ed2892a1b8c0ee035154876dd40a082a3b05387eea11a4
     - url: https://letsencrypt.org/certs/gen-y/int-yr2.pem
-      checksum: f504663442f7a619127e8e12214a58a198599986d4ab42e22587d22af7e9e7eb
+      checksum: sha256:f504663442f7a619127e8e12214a58a198599986d4ab42e22587d22af7e9e7eb
     - url: https://letsencrypt.org/certs/gen-y/int-yr1.pem
-      checksum: d5efc243446ef865c0e165eb1958a2f068c9514aa17238701bd6f7ad90253ce7
+      checksum: sha256:d5efc243446ef865c0e165eb1958a2f068c9514aa17238701bd6f7ad90253ce7
 
 - name: Retrieve LetsEncrypt R12 cert
   slurp:
