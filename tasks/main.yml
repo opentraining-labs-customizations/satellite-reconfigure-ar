@@ -221,8 +221,12 @@
         name: fapolicyd
         state: restarted
         
+- name: Delete existing manifest
+  command: 'hammer subscription delete-manifest --organization="Default Organization"'
+  failed_when: false
+  
 - name: Upload manifest
   command: 'hammer subscription upload --file=/tmp/satellite-6.15-ptl-manifest.zip --organization="Default Organization"'
-
+  
 - name: Refresh the manifest
   command: 'hammer subscription refresh-manifest --organization="Default Organization"'
